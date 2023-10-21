@@ -6,5 +6,4 @@ public record JobPostingUpdateRequest(
     String content,
     String technology
 ) {
-
 }

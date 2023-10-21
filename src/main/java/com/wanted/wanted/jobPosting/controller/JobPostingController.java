@@ -1,5 +1,6 @@
 package com.wanted.wanted.jobPosting.controller;
 
+import com.wanted.wanted.application.dto.response.ApplicationApplicantsResponse;
 import com.wanted.wanted.jobPosting.application.JobPostingService;
 import com.wanted.wanted.jobPosting.dto.request.JobPostingCreateRequest;
 import com.wanted.wanted.jobPosting.dto.request.JobPostingUpdateRequest;
@@ -31,6 +32,12 @@ public class JobPostingController {
     public ResponseEntity<JobPostingDetailResponse> getPosting(@PathVariable("id") Long jobPostingId) {
         JobPostingDetailResponse jobPostingDetailResponse = jobPostingService.getPosting(jobPostingId);
         return ResponseEntity.ok(jobPostingDetailResponse);
+    }
+
+    @GetMapping("/{id}/applicants")
+    public ResponseEntity<ApplicationApplicantsResponse> getApplicants(@PathVariable("id") Long jobPostingId) {
+        ApplicationApplicantsResponse applicationApplicantsResponse = jobPostingService.getApplicants(jobPostingId);
+        return ResponseEntity.ok(applicationApplicantsResponse);
     }
 
     @PutMapping("/{id}")

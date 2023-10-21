@@ -1,5 +1,6 @@
 package com.wanted.wanted.jobPosting.application;
 
+import com.wanted.wanted.application.dto.response.ApplicationApplicantsResponse;
 import com.wanted.wanted.company.domain.Company;
 import com.wanted.wanted.company.domain.CompanyRepository;
 import com.wanted.wanted.jobPosting.domain.JobPosting;
@@ -31,15 +32,23 @@ public class JobPostingService {
         jobPostingRepository.save(jobPosting);
     }
 
+    @Transactional(readOnly = true)
     public JobPostingsResponse getPostings() {
         return jobPostingRepository.findAll().stream()
             .map(JobPostingResponse::new)
             .collect(collectingAndThen(toList(), JobPostingsResponse::new));
     }
 
+    @Transactional(readOnly = true)
     public JobPostingDetailResponse getPosting(Long jobPostingId) {
         JobPosting jobPosting = jobPostingRepository.getById(jobPostingId);
         return new JobPostingDetailResponse(jobPosting);
+    }
+
+    @Transactional(readOnly = true)
+    public ApplicationApplicantsResponse getApplicants(Long jobPostingId) {
+        JobPosting jobPosting = jobPostingRepository.getById(jobPostingId);
+        return new ApplicationApplicantsResponse(jobPosting.getApplicants());
     }
 
     public void updatePosting(Long jobPostingId, JobPostingUpdateRequest request) {

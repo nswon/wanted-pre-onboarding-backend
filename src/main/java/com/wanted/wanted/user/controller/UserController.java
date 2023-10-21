@@ -1,5 +1,6 @@
 package com.wanted.wanted.user.controller;
 
+import com.wanted.wanted.application.dto.response.ApplicationHistoriesResponse;
 import com.wanted.wanted.user.application.UserService;
 import com.wanted.wanted.user.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,11 @@ public class UserController {
     public ResponseEntity<UserResponse> getUser() {
         UserResponse userResponse = userService.getUser();
         return ResponseEntity.ok(userResponse);
+    }
+
+    @GetMapping("/application-history")
+    public ResponseEntity<ApplicationHistoriesResponse> getApplicationHistories() {
+        ApplicationHistoriesResponse applicationHistoriesResponse = userService.getApplicationHistories();
+        return ResponseEntity.ok(applicationHistoriesResponse);
     }
 }

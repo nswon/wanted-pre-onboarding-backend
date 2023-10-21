@@ -1,5 +1,6 @@
 package com.wanted.wanted.common;
 
+import com.wanted.wanted.common.exception.BadRequestException;
 import com.wanted.wanted.common.exception.NotFoundException;
 import com.wanted.wanted.common.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,12 @@ public class ControllerAdvice {
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
     @ExceptionHandler(RuntimeException.class)

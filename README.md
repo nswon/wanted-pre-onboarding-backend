@@ -46,6 +46,18 @@ default User get() {
 
 <br>
 
+```GET http://localhost:8081/api/user/application-history``` 사용자가 지원한 채용공고 목록을 가져옵니다.
+
+List를 객체로 감싸주면서 변화에 대한 유연성을 높였습니다.
+```java
+public ApplicationHistoriesResponse getApplicationHistories() {
+        User user = userRepository.get();
+        return user.getApplicationHistories().stream()
+            .map(ApplicationHistoryResponse::new)
+            .collect(collectingAndThen(toList(), ApplicationHistoriesResponse::new));
+    }
+```
+
 
 ### 회사
 ```POST http://localhost:8081/api/company``` 테스트를 위해 회사를 생성할 수 있습니다.
@@ -113,5 +125,39 @@ public JobPostingsResponse getPostings() {
         return jobPostingRepository.findAll().stream()
             .map(JobPostingResponse::new)
             .collect(collectingAndThen(toList(), JobPostingsResponse::new));
+    }
+```
+
+<br>
+
+```GET http://localhost:8081/api/job-posting/${id}/applicants``` 해당 채용공고에 지원한 유저들의 정보를 반환합니다.
+
+지원내역에서 유저들의 id를 가져옵니다.
+```java
+public List<Long> getApplicants() {
+        return applicationHistories.stream()
+            .map(ApplicationHistory::getUserId)
+            .toList();
+    }
+```
+
+<br>
+
+### 지원
+```GET http://localhost:8081/api/application``` 사용자는 채용공고에 지원합니다.
+
+이미 채용공고에 등록한 사용자가 또 등록할 시 에러를 반환합니다.
+```java
+//JobPosting Entity
+public void receiveApplication(ApplicationHistory application) {
+    if(isAlreadyApplied(application)) {
+    throw new AlreadyAppliedException();
+    }
+
+    applicationHistories.add(application);
+    }
+
+private boolean isAlreadyApplied(ApplicationHistory target) {
+    return applicationHistories.stream().anyMatch(application -> application.getId().equals(target.getId()));
     }
 ```
