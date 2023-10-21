@@ -1,31 +1,3 @@
-### ResponseEntity
-ResponseEntity를 사용해서 정해진 HTTP Response 규약을 지키면서 빠르게 구현하려고 노력했습니다.
-```java
-//Example
-@GetMapping
-    public ResponseEntity<JobPostingsResponse> getPostings() {
-        JobPostingsResponse jobPostingsResponse = jobPostingService.getPostings();
-        return ResponseEntity.ok(jobPostingsResponse);
-    }
-```
-
-<br>
-
-### Record
-Record를 사용하여 가독성을 신경썼습니다.
-```java
-//Example
-public record JobPostingUpdateRequest(
-    String position,
-    int compensation,
-    String content,
-    String technology
-) {
-}
-```
-
-<br>
-
 ### 사용자
 ```GET http://localhost:8081/api/user``` 테스트를 위해 사용자를 제공합니다.
 
@@ -47,8 +19,6 @@ default User get() {
 <br>
 
 ```GET http://localhost:8081/api/user/application-history``` 사용자가 지원한 채용공고 목록을 가져옵니다.
-
-List를 객체로 감싸주면서 변화에 대한 유연성을 높였습니다.
 ```java
 public ApplicationHistoriesResponse getApplicationHistories() {
         User user = userRepository.get();
@@ -118,8 +88,6 @@ public class JobPosting {
 <br>
 
 ```GET http://localhost:8081/api/job-posting``` 채용공고 목록을 가져옵니다.
-
-List를 객체로 감싸주면서 변화에 대한 유연성을 높였습니다.
 ```java
 public JobPostingsResponse getPostings() {
         return jobPostingRepository.findAll().stream()
