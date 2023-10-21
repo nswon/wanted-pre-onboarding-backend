@@ -41,8 +41,8 @@ public class Company {
 
     public List<Long> getOtherJobPostings(JobPosting jobPosting) {
         return jobPostings.stream()
-            .filter(posting -> posting.getId().equals(jobPosting.getId()))
             .map(JobPosting::getId)
+            .filter(postingId -> !postingId.equals(jobPosting.getId()))
             .toList();
     }
 }
