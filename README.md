@@ -143,6 +143,22 @@ public List<Long> getApplicants() {
 
 <br>
 
+```PUT http://localhost:8081/api/job-posting/${id}``` 채용공고를 수정합니다.
+```json
+{
+  "position": "백엔드",
+  "compensation": 100000,
+  "content": "내용",
+  "technology": "Java"
+}
+```
+
+<br>
+
+```DELETE http://localhost:8081/api/job-posting/${id}``` 채용공고를 삭제합니다.
+
+<br>
+
 ### 지원
 ```GET http://localhost:8081/api/application``` 사용자는 채용공고에 지원합니다.
 
